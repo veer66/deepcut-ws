@@ -7,7 +7,10 @@ async def tokenize(websocket, path):
     try:
         while True:
             text = await websocket.recv()
+            
+            # TODO: Use queue to control maximum concurrency?
             toks = deepcut.tokenize(text)
+            
             await websocket.send(json.dumps(toks))
     except websockets.exceptions.ConnectionClosed as e:
         print("CLOSE")
